@@ -5,6 +5,8 @@ on init
     symlink /system_root/system /system
     # Create a more standard /dev/block layout for our scripts
     symlink /dev/block/platform/bootdevice /dev/block/bootdevice
+    # Erase the para partition to prevent recovery-looping
+    start erase_para
 
     start logd
     mkdir /config
@@ -83,6 +85,8 @@ service keymaster-3-0 /sbin/android.hardware.keymaster@3.0-service
     group root
     disabled
     seclabel u:r:recovery:s0
+
+service erase_para /sbin/dd if=/dev/zero of=/dev/block/bootdevice/by-name/para
 
 on property:crypto.ready=0
     stop keymaster-3-0
