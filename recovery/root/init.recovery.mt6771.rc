@@ -87,6 +87,11 @@ service keymaster-3-0 /sbin/android.hardware.keymaster@3.0-service
     seclabel u:r:recovery:s0
 
 service erase_para /sbin/dd if=/dev/zero of=/dev/block/bootdevice/by-name/para
+    user root
+    group root
+    disabled
+    seclabel u:r:recovery:s0
+    oneshot
 
 on property:crypto.ready=0
     stop keymaster-3-0
